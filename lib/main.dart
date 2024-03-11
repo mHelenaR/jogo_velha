@@ -103,16 +103,29 @@ class _MyHomePageState extends State<MyHomePage> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () => _clicado(index),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.yellow.shade50,
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: Center(
-                      child: Text(
-                        listGrade[index],
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 35),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.yellow.shade50,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                        boxShadow: List.filled(
+                          1,
+                          const BoxShadow(
+                            offset: Offset(4, 4),
+                            blurRadius: 5,
+                            color: Colors.amber,
+                          ),
+                          growable: true,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          listGrade[index],
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 35),
+                        ),
                       ),
                     ),
                   ),
@@ -145,13 +158,13 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       if (oJogada && listGrade[index] == '') {
         listGrade[index] = 'O';
+        oJogada = !oJogada;
         filledBoxes++;
       } else if (!oJogada && listGrade[index] == '') {
         listGrade[index] = 'X';
+        oJogada = !oJogada;
         filledBoxes++;
       }
-
-      oJogada = !oJogada;
       _checarVencedor();
     });
   }
