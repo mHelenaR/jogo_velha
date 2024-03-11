@@ -52,8 +52,48 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Jogador O",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        oPont.toString(),
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Jogador X",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      Text(
+                        xPont.toString(),
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             flex: 3,
             child: GridView.builder(
@@ -61,8 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3),
               itemBuilder: (context, index) {
-                int linha = index ~/ 3;
-                int coluna = index % 3;
                 return GestureDetector(
                   onTap: () => _clicado(index),
                   child: Container(
@@ -82,55 +120,22 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ),
-          // Container(
-          //   color: Colors.amber,
-          //   height: 150,
-          //   child: Row(
-          //     mainAxisSize: MainAxisSize.max,
-          //     crossAxisAlignment: CrossAxisAlignment.stretch,
-          //     children: [
-          //       Flexible(
-          //         child: GestureDetector(
-          //           child: Container(
-          //             width: double.infinity,
-          //             color: Colors.yellow,
-          //             child: Center(child: Text(letra)),
-          //           ),
-          //           onTap: () {
-          //             if (letra == 'N') {
-          //               setState(() {
-          //                 letra = 'O';
-          //               });
-          //             }
-          //             print(1);
-          //           },
-          //         ),
-          //       ),
-          //       Flexible(
-          //         child: GestureDetector(
-          //           child: Container(
-          //             width: double.infinity,
-          //             color: Colors.blue,
-          //           ),
-          //           onTap: () {
-          //             print(2);
-          //           },
-          //         ),
-          //       ),
-          //       Flexible(
-          //         child: GestureDetector(
-          //           child: Container(
-          //             width: double.infinity,
-          //             color: Colors.red,
-          //           ),
-          //           onTap: () {
-          //             print(3);
-          //           },
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                          Color.fromARGB(255, 155, 191, 252)),
+                      textStyle: MaterialStatePropertyAll(
+                          TextStyle(color: Colors.black))),
+                  onPressed: () => _limparPontuacao(),
+                  child: const Text("Limpar pontuação"),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -201,6 +206,8 @@ class _MyHomePageState extends State<MyHomePage> {
         listGrade[2] == listGrade[6] &&
         listGrade[2] != '') {
       _dialogVencedor(listGrade[2]);
+    } else if (filledBoxes == 9) {
+      _limpar();
     }
   }
 
@@ -210,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("\"" + vencedor + "\" É O VENCEDOR!!!"),
+          title: Text("\"" "$vencedor" "\" é o vencedor!!!"),
           actions: [
             ElevatedButton(
               onPressed: () {
@@ -230,13 +237,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _limpar(String vencedor) {
+  void _limpar() {
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Limpar"),
+          title: const Text("Fim de Jogo"),
           actions: [
             ElevatedButton(
               onPressed: () {
@@ -249,11 +256,6 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
-    if (vencedor == 'O') {
-      oPont++;
-    } else {
-      xPont++;
-    }
   }
 
   void _limparGrid() {
